@@ -2,7 +2,10 @@
  * Import function triggers from their respective submodules
  */
 
+const { initializeApp } = require("firebase-admin/app");
 const { setGlobalOptions } = require("firebase-functions/v2");
+
+initializeApp();
 
 // Set global options, e.g., region
 setGlobalOptions({ region: "asia-south1", maxInstances: 10 });
