@@ -7,12 +7,18 @@
 
 // Value Object for verification status
 const VerificationStatus = {
-  UNVERIFIED: 'unverified',
-  VERIFIED: 'verified',
-  REJECTED: 'rejected',
+  UNVERIFIED: "unverified",
+  VERIFIED: "verified",
+  REJECTED: "rejected",
 };
 
+/**
+ * Represents a funding source or website to monitor
+ */
 class Source {
+  /**
+   * @param {Object} params - Source params
+   */
   constructor({
     id,
     name,
@@ -20,7 +26,7 @@ class Source {
     checkFrequencyMinutes = 60,
     lastHash = null,
     lastCheckedAt = null,
-    status = 'active',
+    status = "active",
   }) {
     this.id = id;
     this.name = name;
@@ -32,7 +38,13 @@ class Source {
   }
 }
 
+/**
+ * Represents a government job opportunity
+ */
 class Opportunity {
+  /**
+   * @param {Object} params - Opportunity params
+   */
   constructor({
     id,
     title,
@@ -57,6 +69,10 @@ class Opportunity {
     this.lastVerifiedAt = lastVerifiedAt;
   }
 
+  /**
+   * Check if verified
+   * @return {boolean}
+   */
   isVerified() {
     return this.verified === VerificationStatus.VERIFIED;
   }

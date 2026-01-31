@@ -4,24 +4,27 @@ const logger = require("firebase-functions/logger");
 
 /**
  * Send verified notifications to eligible users.
- * This helper would be called by publishVerifiedOpportunity or a background job.
- * 
- * @param {Opportunity} opportunity
+ * This helper would be called by publishVerifiedOpportunity.
+ *
+ * @param {Object} opportunity
+ * @return {Promise<boolean>}
  */
 async function sendNotifications(opportunity) {
-    logger.info(`Preparing to send notifications for opportunity: ${opportunity.title}`);
+  logger.info(`Preparing to send notifications for: ${opportunity.title}`);
 
-    // Logic:
-    // 1. Query users who match criteria (state, qualification).
-    // 2. Check notification throttling (max 2 per day).
-    // 3. Send via FCM.
+  // Logic:
+  // 1. Query users who match criteria (state, qualification).
+  // 2. Check notification throttling (max 2 per day).
+  // 3. Send via FCM.
 
-    // For MVP/Demo:
-    logger.info(`[MOCK] Sending FCM notification: "New Government Job in ${opportunity.state}: ${opportunity.title}"`);
+  // For MVP/Demo:
+  logger.info(
+      `[MOCK] Sending FCM: "Job in ${opportunity.state}: ${opportunity.title}"`,
+  );
 
-    return true;
+  return true;
 }
 
 module.exports = {
-    sendNotifications
+  sendNotifications,
 };

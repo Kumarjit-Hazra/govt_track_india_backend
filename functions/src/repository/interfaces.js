@@ -2,16 +2,19 @@
  * Repository Interfaces
  *
  * In a typed language (TS), these would be interfaces.
- * In JS, we document the expected methods to ensure consistent implementation across adapters.
+ * In JS, we document the expected methods to ensure consistent implementation.
  */
 
+/**
+ * Interface for SourceRepository
+ */
 class SourceRepository {
   /**
    * Fetch all active sources requiring a check.
-   * @returns {Promise<Source[]>}
+   * @return {Promise<Source[]>}
    */
   async getSourcesToCheck() {
-    throw new Error('Method not implemented');
+    throw new Error("Method not implemented");
   }
 
   /**
@@ -20,26 +23,29 @@ class SourceRepository {
    * @param {string} newHash
    */
   async updateLastCheck(sourceId, newHash) {
-    throw new Error('Method not implemented');
+    throw new Error("Method not implemented");
   }
 }
 
+/**
+ * Interface for OpportunityRepository
+ */
 class OpportunityRepository {
   /**
    * Create or update an opportunity.
    * @param {Opportunity} opportunity
    */
   async save(opportunity) {
-    throw new Error('Method not implemented');
+    throw new Error("Method not implemented");
   }
 
   /**
    * Get an opportunity by ID.
    * @param {string} id
-   * @returns {Promise<Opportunity|null>}
+   * @return {Promise<Opportunity|null>}
    */
   async getById(id) {
-    throw new Error('Method not implemented');
+    throw new Error("Method not implemented");
   }
 
   /**
@@ -47,7 +53,7 @@ class OpportunityRepository {
    * @param {string} id
    */
   async markAsVerified(id) {
-    throw new Error('Method not implemented');
+    throw new Error("Method not implemented");
   }
 }
 
