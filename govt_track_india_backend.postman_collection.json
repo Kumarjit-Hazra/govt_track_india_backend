@@ -1,0 +1,174 @@
+{
+    "info": {
+        "_postman_id": "b9f6f079-d3b1-4bca-9d36-ed2047ef8292",
+        "name": "Govt Track India Backend",
+        "description": "Collection of API endpoints for Govt Track India Backend.\n\n## Environments\n\nThere are two main environments you might run this against:\n\n1. **Production**: The live Cloud Functions.\n   - Base URL: `https://asia-south1-govt-track-india.cloudfunctions.net`\n2. **Local Emulator**: Running locally via `firebase emulators:start`.\n   - Base URL: `http://127.0.0.1:5001/govt-track-india/asia-south1`\n\nBy default, the collection uses `baseUrl` variable. Change this variable to switch environments.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Health",
+            "item": [
+                {
+                    "name": "Health Check",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/healthCheck",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "healthCheck"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Opportunities",
+            "item": [
+                {
+                    "name": "Get Opportunities",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/getOpportunities?state=Delhi&qualification=10th",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "getOpportunities"
+                            ],
+                            "query": [
+                                {
+                                    "key": "state",
+                                    "value": "Delhi",
+                                    "description": "Filter by state"
+                                },
+                                {
+                                    "key": "qualification",
+                                    "value": "10th",
+                                    "description": "Filter by qualification"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create or Update Opportunity (Admin)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"title\": \"Example Job\",\n  \"officialUrl\": \"https://example.com\",\n  \"state\": \"Delhi\",\n  \"qualification\": \"Graduate\",\n  \"description\": \"Description here\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/createOrUpdateOpportunity",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "createOrUpdateOpportunity"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "User Tracking",
+            "item": [
+                {
+                    "name": "Get User Tracking",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/getTracking",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "getTracking"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Tracking",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"opportunityId\": \"OPPORTUNITY_ID_HERE\",\n  \"status\": \"applied\" \n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/updateTracking",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "updateTracking"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ],
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://127.0.0.1:5001/govt-track-india/asia-south1",
+            "type": "string",
+            "description": "Use 'http://127.0.0.1:5001/govt-track-india/asia-south1' for Emulator, or 'https://asia-south1-govt-track-india.cloudfunctions.net' for Production."
+        },
+        {
+            "key": "token",
+            "value": "DEV_TOKEN",
+            "type": "string",
+            "description": "Default: DEV_TOKEN for Emulator. For Production, use 'node functions/scripts/get_id_token.js' to generate one."
+        }
+    ]
+}

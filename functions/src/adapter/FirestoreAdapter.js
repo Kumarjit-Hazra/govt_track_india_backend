@@ -7,7 +7,7 @@ const {
   OpportunityRepository,
   SourceRepository,
 } = require("../repository/interfaces");
-const {getFirestore} = require("firebase-admin/firestore");
+const { getFirestore } = require("firebase-admin/firestore");
 
 /**
  * Firestore implementation of OpportunityRepository
@@ -19,6 +19,11 @@ class FirestoreOpportunityRepository extends OpportunityRepository {
   constructor(db) {
     super();
     this.db = db || getFirestore();
+    try {
+      this.db.settings({ ignoreUndefinedProperties: true });
+    } catch (e) {
+      // Ignore if called multiple times or already set
+    }
     this.collection = this.db.collection("opportunities");
   }
 
@@ -28,7 +33,7 @@ class FirestoreOpportunityRepository extends OpportunityRepository {
    * @return {Promise<Opportunity>}
    */
   async save(opportunity) {
-    const data = {...opportunity};
+    const data = { ...opportunity };
     // Remove undefined fields if any, or handle serialization
     if (!data.id) {
       const ref = this.collection.doc();
@@ -36,7 +41,7 @@ class FirestoreOpportunityRepository extends OpportunityRepository {
       await ref.set(data);
       return new Opportunity(data);
     } else {
-      await this.collection.doc(data.id).set(data, {merge: true});
+      await this.collection.doc(data.id).set(data, { merge: true });
       return opportunity;
     }
   }
@@ -49,7 +54,7 @@ class FirestoreOpportunityRepository extends OpportunityRepository {
   async getById(id) {
     const doc = await this.collection.doc(id).get();
     if (!doc.exists) return null;
-    return new Opportunity({id: doc.id, ...doc.data()});
+    return new Opportunity({ id: doc.id, ...doc.data() });
   }
 
   /**
@@ -71,9 +76,9 @@ class FirestoreOpportunityRepository extends OpportunityRepository {
    */
   async getVerifiedOpportunities(filters = {}) {
     let query = this.collection.where(
-        "verified",
-        "==",
-        VerificationStatus.VERIFIED,
+      "verified",
+      "==",
+      VerificationStatus.VERIFIED,
     );
 
     if (filters.state) {
@@ -89,7 +94,7 @@ class FirestoreOpportunityRepository extends OpportunityRepository {
 
     const snapshot = await query.get();
     return snapshot.docs.map(
-        (doc) => new Opportunity({id: doc.id, ...doc.data()}),
+      (doc) => new Opportunity({ id: doc.id, ...doc.data() }),
     );
   }
 }
@@ -114,12 +119,12 @@ class FirestoreSourceRepository extends SourceRepository {
   async getSourcesToCheck() {
     // Logic: lastCheckedAt < (now - frequency)
     const snapshot = await this.collection.where(
-        "status",
-        "==",
-        "active",
+      "status",
+      "==",
+      "active",
     ).get();
     return snapshot.docs.map(
-        (doc) => new Source({id: doc.id, ...doc.data()}),
+      (doc) => new Source({ id: doc.id, ...doc.data() }),
     );
   }
 
@@ -144,7 +149,7 @@ class FirestoreSourceRepository extends SourceRepository {
   async getById(id) {
     const doc = await this.collection.doc(id).get();
     if (!doc.exists) return null;
-    return new Source({id: doc.id, ...doc.data()});
+    return new Source({ id: doc.id, ...doc.data() });
   }
 }
 
@@ -166,7 +171,7 @@ class FirestoreTrackingRepository {
    * @return {Promise<Object>}
    */
   async save(trackingData) {
-    const {userId, opportunityId} = trackingData;
+    const { userId, opportunityId } = trackingData;
     const id = `${userId}_${opportunityId}`;
 
     const data = {
@@ -175,7 +180,7 @@ class FirestoreTrackingRepository {
       id,
     };
 
-    await this.collection.doc(id).set(data, {merge: true});
+    await this.collection.doc(id).set(data, { merge: true });
     return data;
   }
 
