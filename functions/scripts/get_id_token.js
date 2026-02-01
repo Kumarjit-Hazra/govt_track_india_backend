@@ -1,8 +1,14 @@
 const https = require('https');
 const readline = require('readline');
 
-// Config from .env.local
-const API_KEY = "AIzaSyDRyYcOJWBDR_0ALkWvKST2Z3Wzj5VP1oY";
+// Config - Load from Environment or Arguments
+const API_KEY = process.env.API_KEY;
+
+if (!API_KEY) {
+    console.error("Error: API_KEY environment variable is not set.");
+    console.error("Usage: API_KEY=your_key node functions/scripts/get_id_token.js");
+    process.exit(1);
+}
 
 const rl = readline.createInterface({
     input: process.stdin,
